@@ -1,0 +1,87 @@
+---
+version: '3.7'
+
+services:
+
+
+  php:
+    build:
+      context: ./build
+      dockerfile: php.dockerfile
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST:-host.docker.internal}
+      PHP_IDE_CONFIG: "serverName=docker"
+      WEBMAIL_PORT: "${WEBMAIL_PORT}"
+      PHPMYADMIN_PORT: "${PHPMYADMIN_PORT}"
+    volumes:
+      - ${PWD}/build/index.php:/application/index.php
+      - ./php:/application/php
+    networks:
+      - dhbw
+    depends_on:
+      - db
+
+
+  web:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+      - "${HTTPS_PORT:-8443}:443"
+    volumes:
+      - ./build/nginx:/etc/nginx/conf.d
+      - ${PWD}/build/index.php:/application/index.php
+      - ./php:/application/php
+    networks:
+      dhbw:
+        aliases:
+          - dhbw.test
+    depends_on:
+      - php
+
+
+  db:
+    image: mariadb:10.5.5-focal
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-8306}:3306"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./log/mysql:/var/log/mysql
+    networks:
+      - dhbw
+
+
+  mail:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "${WEBMAIL_PORT:-8025}:8025"
+    networks:
+      - dhbw
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+    networks:
+      - dhbw
+    depends_on:
+      - db
+
+
+networks:
+  dhbw:
+    name: "${COMPOSE_PROJECT_NAME:-dhbw}"
+    external: false
+
+
+# vim: syntax=yaml ts=2 sw=2 et sr softtabstop=2 autoindent
