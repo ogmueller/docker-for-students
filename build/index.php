@@ -1,5 +1,6 @@
 <?php
 
+$phpVersion = phpversion();
 [,$phpPort] = explode(':', $_SERVER['HTTP_HOST']);
 $phpMyAdminPort = $_SERVER['PHPMYADMIN_PORT'];
 $webMailPort = $_SERVER['WEBMAIL_PORT'];
@@ -34,10 +35,10 @@ try {
 </style>
 </head>
 <body>
-    <header class="sticky"><h1>PHP on Docker</h1></header>
+<header class="sticky"><h1>PHP v<?=$phpVersion?> on Docker</h1></header>
     <div class="row">
 	    <div class="card">
-    		<div class="section"><a href="/php/">PHP</a></div>
+    		<div class="section"><a href="/php/">Your PHP</a></div>
     		<div class="section">You can access your PHP project files here. Just put all your files in the <code>/php</code> folder.<br/><br/>
     		A demo script called <a href="/php/phpinfo.php">phpinfo.php</a> will show you the current PHP version, configuration and environment.
     		</div>
