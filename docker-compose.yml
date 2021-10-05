@@ -11,8 +11,8 @@ services:
     environment:
       XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST:-host.docker.internal}
       PHP_IDE_CONFIG: "serverName=docker"
-      WEBMAIL_PORT: "${WEBMAIL_PORT}"
-      PHPMYADMIN_PORT: "${PHPMYADMIN_PORT}"
+      WEBMAIL_PORT: "${WEBMAIL_PORT:-8025}"
+      PHPMYADMIN_PORT: "${PHPMYADMIN_PORT:-8081}"
     volumes:
       - ${PWD}/build/index.php:/application/index.php
       - ./php:/application/php
