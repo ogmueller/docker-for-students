@@ -15,7 +15,7 @@ RUN     apt-get update \
         @composer \
         imap \
         gd \
-        intl  \
+        intl \
         opcache \
         pcntl \
         pdo_mysql \
@@ -32,7 +32,31 @@ RUN     apt-get update \
         bcmath \
         bz2 \
         calendar \
+        csv \
+        decimal \
+        enchant \
+        event \
         exif \
+        gettext \
+        gmagick \
+        gmp \
+        gnupg \
+        imap \
+        ldap \
+        lzf \
+        mailparse \
+        pspell \
+        sysvmsg \
+        sysvsem \
+        sysvshm \
+        shmop \
+        snmp \
+        soap \
+        ssh2 \
+        tidy \
+        uuid \
+        xsl \
+        yaml \
     &&  apt-get autoremove -y \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/*
