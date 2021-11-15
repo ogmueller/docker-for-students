@@ -47,10 +47,6 @@ RUN     mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
 COPY my.cnf /root/.my.cnf
 RUN		chmod 0644 /root/.my.cnf
 
-# install composer
-COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
-ENV     COMPOSER_HOME /tmp/.composer
-
 # expose FPM
 EXPOSE  9000
 
