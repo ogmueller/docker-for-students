@@ -46,7 +46,7 @@ try {
     	</div>
 	    <div class="card">
     		<div class="section"><a href="http://localhost:<?=$phpMyAdminPort?>">phpMyAdmin</a></div>
-    		<div class="section">MariaDB is our database management system. You can easily access and manage it with phpMyAdmin using your web browser. phpMyAdmin allows you to select, insert, update and delete data, You can create and drop tables or backup and restore whole databases.</div>
+    		<div class="section">MariaDB is our database management system. You can easily access and manage it with phpMyAdmin using your web browser. phpMyAdmin allows you to select, insert, update and delete data. You can create and drop tables or backup and restore whole databases.</div>
     		<div class="section">Port: <?=$phpMyAdminPort?></div>
     	</div>
     	<div class="card">

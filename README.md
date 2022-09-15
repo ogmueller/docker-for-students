@@ -53,7 +53,7 @@ Port: DB_PORT
 
 ### phpMyAdmin
 
-The easiest way to access, work with and manage our database management system is with [phpMyAdmin](http://localhost:8081/) using your web browser. phpMyAdmin allows you to select, insert, update and delete data, You can create and drop tables or backup and restore whole databases. It's [documentation](https://docs.phpmyadmin.net/en/latest/) will explain all features in detail.
+The easiest way to access, work with and manage our database management system is with [phpMyAdmin](http://localhost:8081/) using your web browser. phpMyAdmin allows you to select, insert, update and delete data. You can create and drop tables or backup and restore whole databases. It's [documentation](https://docs.phpmyadmin.net/en/latest/) will explain all features in detail.
 
 Port: PHPMYADMIN_PORT
 
