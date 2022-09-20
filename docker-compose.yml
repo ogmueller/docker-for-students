@@ -27,7 +27,7 @@ services:
       - "${HTTPS_PORT:-8443}:443"
     volumes:
       - ./build/nginx:/etc/nginx/conf.d
-      - ${PWD}/build/index.php:/application/index.php
+      - ./build/index.php:/application/index.php:ro
       - ./php:/application/php
     networks:
       dhbw:

@@ -45,7 +45,7 @@ RUN     mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     &&  echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY my.cnf /root/.my.cnf
-RUN		chmod 0644 /root/.my.cnf
+RUN chmod 0644 /root/.my.cnf
 
 # expose FPM
 EXPOSE  9000
