@@ -53,7 +53,7 @@ services:
 
 
   mail:
-    image: mailhog/mailhog:latest
+    image: arjenz/mailhog:latest
     restart: unless-stopped
     ports:
       - "${WEBMAIL_PORT:-8025}:8025"
@@ -63,6 +63,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
+    platform: linux/amd64
     restart: unless-stopped
     ports:
       - "${PHPMYADMIN_PORT:-8081}:80"
