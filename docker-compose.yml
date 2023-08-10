@@ -39,7 +39,7 @@ services:
 
 
   db:
-    image: mariadb:10.9-jammy
+    image: mariadb:10.11-jammy
     restart: unless-stopped
     ports:
       - "${DB_PORT:-8306}:3306"
