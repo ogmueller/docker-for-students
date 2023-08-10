@@ -29,8 +29,23 @@ try {
 <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+body {
+    background-color: whitesmoke;
+}
+header {
+    background-color: white;
+    box-shadow: 0 0 10px lightgray;
+}
 .card {
 	align-self: flex-start;
+    box-shadow: 0 0 5px lightgray;
+}
+.card>.section {
+    background-color: white;
+    color: #5a5a5a;
+}
+.card>.section:first-child {
+    font-weight: 600;
 }
 </style>
 </head>
