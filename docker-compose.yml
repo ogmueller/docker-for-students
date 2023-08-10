@@ -6,6 +6,7 @@ services:
       context: ./build
       dockerfile: php.dockerfile
     environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-develop,debug}"
       XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST:-host.docker.internal}
       PHP_IDE_CONFIG: "serverName=docker"
       WEBMAIL_PORT: "${WEBMAIL_PORT:-8025}"

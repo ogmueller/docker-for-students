@@ -62,9 +62,7 @@ set -o errexit  # stop on non zero return code
 trap "exit" SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-echo "xdebug.coverage_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+echo "xdebug.cli_color=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 EOF
 
