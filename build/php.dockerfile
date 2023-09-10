@@ -18,7 +18,6 @@ apt-get update
 apt-get install --no-install-recommends -y \
         git \
         mariadb-client \
-        mycli \
         tar \
         vim \
         zip
