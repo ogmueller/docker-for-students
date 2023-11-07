@@ -20,7 +20,8 @@ apt-get install --no-install-recommends -y \
         mariadb-client \
         tar \
         vim \
-        zip
+        zip \
+        libfcgi-bin
 
 install-php-extensions \
         @composer \
@@ -54,7 +55,6 @@ apt-get clean
 rm -rf /var/lib/apt/lists/*
 EOF
 
-
 RUN <<EOF
 # ERROR HANDLING
 set -o pipefail # trace ERR through pipes
@@ -63,9 +63,13 @@ set -o nounset  ## set -u : exit the script if you try to use an uninitialised v
 set -o errexit  # stop on non zero return code
 trap "exit" SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 
+
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 echo "xdebug.cli_color=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+echo "pm.status_path = /status" >>/usr/local/etc/php-fpm.d/www.conf
+echo "pm.status_listen = 127.0.0.1:9001" >>/usr/local/etc/php-fpm.d/www.conf
 EOF
 
 COPY my.cnf /root/.my.cnf
@@ -73,6 +77,9 @@ RUN chmod 0644 /root/.my.cnf
 
 # expose FPM
 EXPOSE  9000
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=5s --retries=3 \
+		CMD REQUEST_METHOD=GET SCRIPT_NAME=/status SCRIPT_FILENAME=/status cgi-fcgi -bind -connect 127.0.0.1:9001
 
 WORKDIR /application
 
