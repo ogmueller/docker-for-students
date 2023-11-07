@@ -18,6 +18,7 @@ apt-get update
 apt-get install --no-install-recommends -y \
         git \
         mariadb-client \
+        ssmtp \
         tar \
         vim \
         zip \
@@ -67,6 +68,12 @@ trap "exit" SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 echo "xdebug.cli_color=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# MAIL
+echo "mailhub=mail:1025" >> /etc/ssmtp/ssmtp.conf
+echo "UseSTARTTLS=NO" >> /etc/ssmtp/ssmtp.conf
+echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
+echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini
 
 echo "pm.status_path = /status" >>/usr/local/etc/php-fpm.d/www.conf
 echo "pm.status_listen = 127.0.0.1:9001" >>/usr/local/etc/php-fpm.d/www.conf
