@@ -44,11 +44,10 @@ services:
     ports:
       - "${DB_PORT:-8306}:3306"
     environment:
-      - MYSQL_USER=root
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
     volumes:
-      - ./data/mysql:/var/lib/mysql
-      - ./log/mysql:/var/log/mysql
+      - ./data/mariadb:/var/lib/mysql
+      - ./log/mariadb:/var/log/mysql
     networks:
       - dhbw
 
