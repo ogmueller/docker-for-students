@@ -66,6 +66,10 @@ trap "exit" SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 
 
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+# enable bigger uploads
+echo "upload_max_filesize=64M" >> "$PHP_INI_DIR/php.ini"
+echo "post_max_size=64M" >> "$PHP_INI_DIR/php.ini"
+# enhanced xdebug
 echo "xdebug.cli_color=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
