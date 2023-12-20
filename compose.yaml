@@ -30,6 +30,12 @@ services:
       - ./build/nginx:/etc/nginx/conf.d
       - ./build/index.php:/application/index.php:ro
       - ./php:/application/php
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
       dhbw:
         aliases:
