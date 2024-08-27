@@ -45,7 +45,7 @@ services:
 
 
   db:
-    image: mariadb:10.11-jammy
+    image: mariadb:11.5-noble
     # increaase max package size to 64MB
     command: --max_allowed_packet=67108864
     restart: unless-stopped

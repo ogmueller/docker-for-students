@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3-labs
-FROM php:8.2-fpm-bullseye
+FROM php:8.3-fpm-bookworm
 
 # make PHP extension installation easier
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
