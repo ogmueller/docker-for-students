@@ -4,7 +4,7 @@ This projects provides all basic components to run PHP files on your local compu
 
 ## Requirements
 
-This setup requires [docker](https://www.docker.com) (version >= 3.4.0) to be installed on your system. Docker is a free software which isotates applications using container virtualization.
+This setup requires [docker](https://www.docker.com) (version >= 3.4.0) to be installed on your system. Docker is a free software which isolates applications using container virtualization.
 
 **Note:** You need to be in the root directory of this project to execute any `docker compose` command that is mentioned in this document.
 
