@@ -1,10 +1,10 @@
-# syntax=docker/dockerfile:1.3-labs
-FROM php:8.3-fpm-bookworm
+# syntax=docker/dockerfile:1.6
+FROM php:8.4-fpm-trixie
 
 # make PHP extension installation easier
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 RUN <<EOF
 # ERROR HANDLING
@@ -67,20 +67,31 @@ trap "exit" SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
 
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 # enable bigger uploads
-echo "upload_max_filesize=64M" >> "$PHP_INI_DIR/php.ini"
-echo "post_max_size=64M" >> "$PHP_INI_DIR/php.ini"
+cat >> "$PHP_INI_DIR/php.ini" <<'EOI'
+upload_max_filesize=64M
+post_max_size=64M
+EOI
+
 # enhanced xdebug
-echo "xdebug.cli_color=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+cat >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini <<'EOI'
+xdebug.cli_color=1
+xdebug.idekey="PHPSTORM"
+xdebug.client_host=host.docker.internal
+EOI
 
 # MAIL
-echo "mailhub=mail:1025" >> /etc/ssmtp/ssmtp.conf
-echo "UseSTARTTLS=NO" >> /etc/ssmtp/ssmtp.conf
-echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
-echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini
+cat >> /etc/ssmtp/ssmtp.conf <<'EOI'
+mailhub=mail:1025
+UseSTARTTLS=NO
+FromLineOverride=YES
+sendmail_path = "/usr/sbin/ssmtp -t"
+EOI
 
-echo "pm.status_path = /status" >>/usr/local/etc/php-fpm.d/www.conf
-echo "pm.status_listen = 127.0.0.1:9001" >>/usr/local/etc/php-fpm.d/www.conf
+cat >> /usr/local/etc/php-fpm.d/www.conf <<'EOI'
+pm.status_path = /status
+pm.status_listen = 127.0.0.1:9001
+EOI
+
 EOF
 
 COPY my.cnf /root/.my.cnf
