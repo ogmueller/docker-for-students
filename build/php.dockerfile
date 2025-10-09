@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1.6
 FROM php:8.4-fpm-trixie
 
+LABEL maintainer="Oliver G. Mueller <oliver@teqneers.de>"
+
 # make PHP extension installation easier
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
