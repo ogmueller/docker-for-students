@@ -24,3 +24,8 @@
 
 
 /*.sql
+
+# optional HTTPS (created by build/mkcert.sh)
+/build/nginx/app.crt
+/build/nginx/app.key
+/build/nginx/ssl.conf

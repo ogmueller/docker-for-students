@@ -1,7 +1,13 @@
+# OPTIONAL HTTPS
+# This file is ignored by nginx until it is renamed to ssl.conf.
+# Run build/mkcert.sh, which creates the certificates and this ssl.conf for you.
 server {
-    listen 80;
+    listen 443 ssl;
 
     server_name dhbw.test localhost;
+
+    ssl_certificate     /etc/nginx/conf.d/app.crt;
+    ssl_certificate_key /etc/nginx/conf.d/app.key;
 
     error_log  /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
@@ -31,10 +37,9 @@ server {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param HTTPS on;
     }
 
-    # deny access to .htaccess files, if Apache's document root
-    # concurs with nginx's one
     location ~ /\.ht {
        deny all;
     }

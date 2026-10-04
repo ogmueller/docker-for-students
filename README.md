@@ -69,6 +69,17 @@ Port: WEBMAIL_PORT
 
 ## Optional
 
+### HTTPS
+
+By default everything runs on plain HTTP, which is fine for local development. If you want to try HTTPS:
+
+- install [mkcert](https://github.com/FiloSottile/mkcert) and run `mkcert -install` once
+- run `./build/mkcert.sh` (creates the certificates and activates HTTPS in nginx)
+- run `docker compose restart web`
+- open https://localhost:8443
+
+Port: HTTPS_PORT
+
 ### Debugging with PhpStorm
 
 This section is optional and only applicable, if you are using PhpStorm IDE for development. Follow these brief steps to activate debugging within your IDE.
