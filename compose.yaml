@@ -6,8 +6,7 @@ services:
       context: ./build
       dockerfile: php.dockerfile
     environment:
-      XDEBUG_MODE: "${XDEBUG_MODE:-develop,debug}"
-      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST:-host.docker.internal}
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
       PHP_IDE_CONFIG: "serverName=docker"
       WEBMAIL_PORT: "${WEBMAIL_PORT:-8025}"
       PHPMYADMIN_PORT: "${PHPMYADMIN_PORT:-8081}"
@@ -46,8 +45,9 @@ services:
 
   db:
     image: mariadb:11.5-noble
-    # increaase max package size to 64MB
-    command: --max_allowed_packet=67108864
+    # increaase max package size to 64MB and
+    # make windows dumps with uppercase tablesnames compatible with other OSes
+    command: --skip-ssl --max_allowed_packet=67108864 --lower_case_table_names=1
     restart: unless-stopped
     ports:
       - "${DB_PORT:-8306}:3306"
@@ -71,8 +71,7 @@ services:
 
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    platform: linux/amd64
+    image: phpmyadmin:latest
     restart: unless-stopped
     ports:
       - "${PHPMYADMIN_PORT:-8081}:80"
