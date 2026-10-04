@@ -23,8 +23,8 @@ services:
     image: nginx:latest
     restart: unless-stopped
     ports:
-      - "${HTTP_PORT:-8080}:80"
-      - "${HTTPS_PORT:-8443}:443"
+      - "127.0.0.1:${HTTP_PORT:-8080}:80"
+      - "127.0.0.1:${HTTPS_PORT:-8443}:443"
     volumes:
       - ./build/nginx:/etc/nginx/conf.d
       - ./build/index.php:/application/index.php:ro
@@ -44,15 +44,16 @@ services:
 
 
   db:
-    image: mariadb:11.5-noble
+    image: mariadb:11.8
     # increaase max package size to 64MB and
     # make windows dumps with uppercase tablesnames compatible with other OSes
     command: --skip-ssl --max_allowed_packet=67108864 --lower_case_table_names=1
     restart: unless-stopped
     ports:
-      - "${DB_PORT:-8306}:3306"
+      - "127.0.0.1:${DB_PORT:-8306}:3306"
     environment:
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
+      - MARIADB_AUTO_UPGRADE=1
     volumes:
       - ./data/mariadb:/var/lib/mysql
       - ./log/mariadb:/var/log/mysql
@@ -64,8 +65,8 @@ services:
     image: axllent/mailpit:latest
     restart: unless-stopped
     ports:
-      - "${WEBMAIL_PORT:-8025}:8025"
-      - "${SMTP_PORT:-1025}:1025"
+      - "127.0.0.1:${WEBMAIL_PORT:-8025}:8025"
+      - "127.0.0.1:${SMTP_PORT:-1025}:1025"
     networks:
       - dhbw
 
@@ -74,7 +75,7 @@ services:
     image: phpmyadmin:latest
     restart: unless-stopped
     ports:
-      - "${PHPMYADMIN_PORT:-8081}:80"
+      - "127.0.0.1:${PHPMYADMIN_PORT:-8081}:80"
     environment:
       - PMA_HOST=db
       - PMA_USER=root

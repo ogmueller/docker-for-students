@@ -2,13 +2,13 @@
 declare(strict_types=1);
 
 $phpVersion = phpversion();
-$httpHost = (string)$_SERVER['HTTP_HOST'] ?: 'localhost';
+$httpHost = (string)($_SERVER['HTTP_HOST'] ?? '') ?: 'localhost';
 $hostSplit = explode(':', $httpHost, 2);
 $port = count($hostSplit) == 2 && ctype_digit($hostSplit[1]) ? $hostSplit[1] : 80;
 
 // Prefer environment variables with server fallback
-$phpMyAdminPort = getenv('PHPMYADMIN_PORT') ?: ($_SERVER['PHPMYADMIN_PORT'] ?: '8081');
-$webMailPort = getenv('WEBMAIL_PORT') ?: ($_SERVER['WEBMAIL_PORT'] ?: '8025');
+$phpMyAdminPort = getenv('PHPMYADMIN_PORT') ?: (($_SERVER['PHPMYADMIN_PORT'] ?? '') ?: '8081');
+$webMailPort = getenv('WEBMAIL_PORT') ?: (($_SERVER['WEBMAIL_PORT'] ?? '') ?: '8025');
 
 // DSN: fix "charset" parameter
 $dsn = 'mysql:host=db;dbname=information_schema;charset=utf8mb4';
@@ -43,10 +43,12 @@ try {
 }
 
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>PHP</title>
-    <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mini.css@3.0.1/dist/mini-default.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
@@ -104,8 +106,8 @@ try {
         <div class="section">Port: <?= $esc($phpMyAdminPort) ?></div>
     </div>
     <div class="card">
-        <div class="section"><a href="http://localhost:<?= $esc($webMailPort) ?>">Webmail</a></div>
-        <div class="section">All emails should be caught by mailhog. We want to make sure, that we don't spam anybody by
+        <div class="section"><a href="http://localhost:<?= $esc($webMailPort) ?>">Webmail (Mailpit)</a></div>
+        <div class="section">All emails should be caught by Mailpit. We want to make sure, that we don't spam anybody by
             accident.<br>
             If necessary those emails can also be "released" in the UI and received by an email client.
         </div>

@@ -23,8 +23,7 @@ rm -rf /var/lib/apt/lists/*
 EOI
 
 # ---- PHP extensions ----
-RUN <<EOI
-install-php-extensions \
+RUN install-php-extensions \
       @composer \
       imap \
       gd \
@@ -35,21 +34,10 @@ install-php-extensions \
       pdo_mysql \
       sockets \
       zip \
+# development
       apcu \
       xdebug \
-      bcmath \
-      bz2 \
-      calendar \
-      exif
-EOI
-
-# ---- PHP extensions for developement ----
-RUN install-php-extensions \
-      apcu \
-      xdebug
-
-# ---- PHP extensions optional ----
-RUN install-php-extensions \
+# optional
       bcmath \
       bz2 \
       calendar \
@@ -79,7 +67,7 @@ xdebug.idekey=PHPSTORM
 xdebug.cli_color=1
 EOI
 
-# ---- Mail (MailHog/Mailpit style) ----
+# ---- Mail (Mailpit) ----
 # msmtp provides sendmail compatibility for PHP's mail().
 # Expects a compose service "mail" listening on 1025 (no TLS).
 COPY <<'EOI' /etc/msmtprc
