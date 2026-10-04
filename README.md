@@ -1,6 +1,6 @@
 # PHP - NGINX - MARIADB - MAIL
 
-This projects provides all basic components to run PHP files on your local computer. [NGINX](http://nginx.org) is our webserver. It communicates with [PHP](https://php.net) using FastCGI (PHP-FPM). Our data will be stored in [MariaDB](http://mariadb.com/). In case we want to send out any email, we have [Mailpit](https://mailpit.axllent.org). It is our SMTP server and web UI for emails.
+This project provides all basic components to run PHP files on your local computer. [NGINX](http://nginx.org) is our webserver. It communicates with [PHP](https://php.net) using FastCGI (PHP-FPM). Our data will be stored in [MariaDB](http://mariadb.com/). In case we want to send out any email, we have [Mailpit](https://mailpit.axllent.org). It is our SMTP server and web UI for emails.
 
 ## Requirements
 
@@ -10,7 +10,7 @@ This setup requires [Docker Desktop](https://www.docker.com) (or Docker Engine w
 
 ## Setup
 
-First we need to set various ports for e.g. webserver, mailserver, a.so.
+First we need to set various ports for e.g. webserver, mailserver, etc.
 
 - copy `.env.dist` to `.env`
 - change ports in `.env` according to your needs. If you have a port conflict on your system, because any of the ports is used by another application, this is the place to change it.
@@ -37,31 +37,29 @@ There is an example PHP script called `phpinfo.php` placed in this folder. If ca
 
 ### Web
 
-The webserver and your PHP scripts are available by visiting `http://localhost:8080/`. There is an [overview page](http://localhost:8080) to this project. It explains and references to the other parts of the project. You can access your PHP files stored in `/php` folder with the very same path in the URL: http://localhost:8080/php/.
+The webserver and your PHP scripts are available by visiting `http://localhost:8080/`. There is an [overview page](http://localhost:8080) to this project. It explains and links to the other parts of the project. You can access your PHP files stored in `/php` folder with the very same path in the URL: http://localhost:8080/php/.
 
 Port: HTTP_PORT
 
 ### Database
 
-We are using MariaDB as our database management system. MariaDB is a fork of MySQL happened in 2009. This is important to know, because some command, folders, variable names, a.so. are still called mysql instead of mariadb. So don't get confused, when you see mysql in some places, it does refer to MariaDB.
+We are using MariaDB as our database management system. MariaDB is a fork of MySQL, created in 2009. This is important to know, because some commands, folders, variable names, etc. are still called mysql instead of mariadb. So don't get confused, when you see mysql in some places, it does refer to MariaDB.
 
-If you want to *see* or operated on the database system, you can either access the database using a web UI called phpMyAdmin (see next chapter) or using a CLI client  `docker compose exec db mysql`. You can actually see the database content and its files in the `/data` folder. Do **not** modify any of those files, otherwise the database will be corrupt and stop working.
+If you want to *see* or operate on the database system, you can either access the database using a web UI called phpMyAdmin (see next chapter) or using the CLI client `docker compose exec db mariadb`. You can actually see the database content and its files in the `/data/mariadb` folder. Do **not** modify any of those files, otherwise the database will be corrupt and stop working.
 
-It is also possible to install and use a desktop client. MariaDB published a list of [compatible clients](https://mariadb.com/kb/en/graphical-and-enhanced-clients/). Please note, that the default MariaDB port is 3306, but we have changed this to 8306 in `.env.dist`.
+It is also possible to install and use a desktop client. MariaDB published a list of [compatible clients](https://mariadb.com/kb/en/graphical-and-enhanced-clients/). Please note, that the default MariaDB port is 3306, but we have changed this to 8306 in `.env.dist`. Connect with host `127.0.0.1`, port `8306`, user `root` and no password.
 
 Port: DB_PORT
 
 ### phpMyAdmin
 
-The easiest way to access, work with and manage our database management system is with [phpMyAdmin](http://localhost:8081/) using your web browser. phpMyAdmin allows you to select, insert, update and delete data. You can create and drop tables or backup and restore whole databases. It's [documentation](https://docs.phpmyadmin.net/en/latest/) will explain all features in detail.
+The easiest way to access, work with and manage our database management system is with [phpMyAdmin](http://localhost:8081/) using your web browser. phpMyAdmin allows you to select, insert, update and delete data. You can create and drop tables or backup and restore whole databases. Its [documentation](https://docs.phpmyadmin.net/en/latest/) will explain all features in detail.
 
 Port: PHPMYADMIN_PORT
 
 ### Email
 
-All emails should be caught by [Mailpit](http://localhost:8025). We want to make sure, that we don't spam anybody by accident.
-
-If necessary those emails can also be "released" in the UI and received by an email client.
+All emails should be caught by [Mailpit](http://localhost:8025). We want to make sure, that we don't spam anybody by accident. No email ever leaves your computer, you can read all of them in the Mailpit web UI.
 
 Port: WEBMAIL_PORT
 
@@ -74,7 +72,7 @@ Port: WEBMAIL_PORT
 By default everything runs on plain HTTP, which is fine for local development. If you want to try HTTPS:
 
 - install [mkcert](https://github.com/FiloSottile/mkcert) and run `mkcert -install` once
-- run `./build/mkcert.sh` (creates the certificates and activates HTTPS in nginx)
+- run `./build/mkcert.sh` (creates the certificates and activates HTTPS in nginx). On Windows, use Git Bash or WSL to run it.
 - run `docker compose restart web`
 - open https://localhost:8443
 
@@ -84,6 +82,7 @@ Port: HTTPS_PORT
 
 This section is optional and only applicable, if you are using PhpStorm IDE for development. Follow these brief steps to activate debugging within your IDE.
 
+- enable Xdebug: uncomment `XDEBUG_MODE=develop,debug` in your `.env` and run `docker compose up -d`
 - Required (enabled) plugins: Docker, PHP Docker
 - [Preferences | Languages & Frameworks | PHP](jetbrains://PhpStorm/settings?name=Languages+%26+Frameworks--PHP)
   - add docker-compose CLI interpreter

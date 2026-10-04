@@ -49,7 +49,7 @@ services:
     image: mariadb:11.8
     # increaase max package size to 64MB and
     # make windows dumps with uppercase tablesnames compatible with other OSes
-    command: --skip-ssl --max_allowed_packet=67108864 --lower_case_table_names=1
+    command: --max_allowed_packet=67108864 --lower_case_table_names=1
     restart: unless-stopped
     ports:
       - "127.0.0.1:${DB_PORT:-8306}:3306"
