@@ -1,0 +1,4 @@
+# keep unix line endings, also on windows checkouts
+*.sh   text eol=lf
+*.conf text eol=lf
+*.dist text eol=lf

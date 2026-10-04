@@ -47,9 +47,11 @@ RUN install-php-extensions \
 RUN <<EOI
 mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 cat >> "$PHP_INI_DIR/php.ini" <<'EOF'
-# enable bigger uploads
+; enable bigger uploads
 upload_max_filesize=64M
 post_max_size=64M
+; timezone from TZ environment variable (see compose.yaml)
+date.timezone=${TZ}
 EOF
 EOI
 
@@ -96,6 +98,7 @@ EOI
 
 # Provide a safe default for xdebug (off). Override in compose when needed.
 ENV XDEBUG_MODE=off
+ENV TZ=Europe/Berlin
 
 COPY my.cnf /root/.my.cnf
 RUN chmod 0644 /root/.my.cnf

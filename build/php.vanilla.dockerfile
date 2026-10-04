@@ -64,7 +64,13 @@ RUN install-php-extensions \
       yaml
 
 # ---- PHP config ----
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN <<EOI
+mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+cat >> "$PHP_INI_DIR/php.ini" <<'EOF'
+; timezone from TZ environment variable
+date.timezone=${TZ}
+EOF
+EOI
 
 # xdebug: installed, but disabled by default unless XDEBUG_MODE is set
 COPY <<'EOI' /usr/local/etc/php/conf.d/99-xdebug.ini
@@ -93,6 +99,7 @@ printf '%s\n' 'sendmail_path = "/usr/bin/msmtp -t"' > /usr/local/etc/php/conf.d/
 EOI
 
 ENV XDEBUG_MODE=off
+ENV TZ=Europe/Berlin
 
 COPY my.cnf /root/.my.cnf
 RUN chmod 0644 /root/.my.cnf

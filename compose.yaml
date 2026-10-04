@@ -7,6 +7,7 @@ services:
       dockerfile: php.dockerfile
     environment:
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+      TZ: "${TZ:-Europe/Berlin}"
       PHP_IDE_CONFIG: "serverName=docker"
       WEBMAIL_PORT: "${WEBMAIL_PORT:-8025}"
       PHPMYADMIN_PORT: "${PHPMYADMIN_PORT:-8081}"
@@ -56,6 +57,7 @@ services:
     environment:
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
       - MARIADB_AUTO_UPGRADE=1
+      - TZ=${TZ:-Europe/Berlin}
     volumes:
       - ./data/mariadb:/var/lib/mysql
       - ./log/mariadb:/var/log/mysql
